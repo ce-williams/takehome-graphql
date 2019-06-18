@@ -1,0 +1,20 @@
+{
+  "name": "takehome-graphql",
+  "version": "1.0.0",
+  "description": "Simple graphql server",
+  "main": "server.js",
+  "scripts": {
+    "dev:server": "nodemon server.js",
+    "json:server": "json-server --watch UserData.json"
+  },
+  "author": "Curtis Williams",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.8.0",
+    "graphql": "^14.3.1",
+    "json-server": "^0.15.0",
+    "nodemon": "^1.19.1"
+  }
+}
