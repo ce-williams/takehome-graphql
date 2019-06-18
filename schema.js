@@ -76,12 +76,24 @@ const mutation = new GraphQLObjectType({
             },
             resolve(parentValue, args){
                 return axios.post('http://localhost:3000/people',{
+                    // optional user adds unique ID, not necessary as provided regardless
+                    id:args.id,
                     firstName:args.firstName,
                     lastName:args.lastName,
                     jobTitle:args.jobTitle,
                     departmentId:args.departmentId,
                     managerId:args.managerId
                 })
+                .then(res => res.data);
+            }
+        },
+        deleteEmployee:{
+            type:EmployeeType,
+            args:{
+                id: {type: new GraphQLNonNull(GraphQLString)}              
+            },
+            resolve(parentValue, args){
+                return axios.post('http://localhost:3000/people'+args.id)
                 .then(res => res.data);
             }
         }
