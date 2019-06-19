@@ -10,9 +10,9 @@ const {
 
 
 // import UserData
-// const UserData = require('./UserData.json');
-// const people = UserData.people;
-// const departments = UserData.departments;
+const UserData = require('./UserData.json');
+const people = UserData.people;
+const departments = UserData.departments;
 
 // import departments from ('./UserData.json');
 
@@ -28,7 +28,17 @@ const EmployeeType = new GraphQLObjectType({
         departmentId: {type: GraphQLString},
         managerId: {type: GraphQLString},
     })
-})
+});
+
+// Department Type
+const DepartmentType = new GraphQLObjectType({
+    name:'Department',
+    fields:() => ({
+        id: {type: GraphQLString},
+        name: {type: GraphQLString}
+        // members: {EmployeeType}
+    })
+});
 
 
 // Root Query
@@ -50,11 +60,45 @@ const RootQuery = new GraphQLObjectType({
                     .then(res => res.data);
             }
         },
+        // Return single department by id
+        department:{
+            type:DepartmentType,
+            args: {
+                id:{type: GraphQLString}
+            },
+            resolve(parentValue, args){
+                // for(let i=0; i < departments.length; i++) {
+                //     if(departments[i].id == args.id){
+                //         return departments[i];
+                //     }
+                // }
+                return axios.get('http://localhost:3000/departments/'+ args.id)
+                    .then(res => res.data);
+            }
+        },
+        // Return List of employees
         people:{
             type: new GraphQLList(EmployeeType),
             resolve(parentValue, args){
                 return axios.get('http://localhost:3000/people')
                     .then(res => res.data);
+            }
+        },
+        // Returns List of departments
+        departments:{
+            type: new GraphQLList(DepartmentType),
+            resolve(parentValue, args){
+                return axios.get('http://localhost:3000/departments')
+                    .then(res => res.data);
+            }
+        },
+        // given department id input, returns List of people by department
+        orgChart:{
+            type: new GraphQLList,
+            resolve(parentValue, args){
+                if(args.id == people[i].departmentId){
+                    return people[i];
+                }
             }
         }
     }

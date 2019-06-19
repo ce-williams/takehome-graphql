@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev:server": "nodemon server.js",
-    "json:server": "json-server --watch UserData.json"
+    "json:server": "json-server --watch UserData.json",
+    "test": "mocha ./server.js"
   },
   "author": "Curtis Williams",
   "license": "MIT",
@@ -16,5 +17,8 @@
     "graphql": "^14.3.1",
     "json-server": "^0.15.0",
     "nodemon": "^1.19.1"
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4"
   }
 }
