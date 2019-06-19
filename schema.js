@@ -93,10 +93,25 @@ const mutation = new GraphQLObjectType({
                 id: {type: new GraphQLNonNull(GraphQLString)}              
             },
             resolve(parentValue, args){
-                return axios.post('http://localhost:3000/people'+args.id)
+                return axios.delete('http://localhost:3000/people/'+args.id)
                 .then(res => res.data);
             }
-        }
+        },
+        editEmployee:{
+            type:EmployeeType,
+            args:{
+                id: {type: new GraphQLNonNull(GraphQLString)},
+                firstName: {type: GraphQLString},
+                lastName: {type: GraphQLString},
+                jobTitle: {type: GraphQLString},
+                departmentId: {type: GraphQLString},
+                managerId: {type: GraphQLString}               
+            },
+            resolve(parentValue, args){
+                return axios.patch('http://localhost:3000/people/'+args.id, args)
+                .then(res => res.data);
+            }
+        },
     }
 })
 module.exports = new GraphQLSchema({
